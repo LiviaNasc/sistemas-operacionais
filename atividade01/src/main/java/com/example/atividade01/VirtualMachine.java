@@ -4,11 +4,12 @@ package com.example.atividade01;
  * Representa uma Máquina Virtual (VM), um ambiente computacional completo e isolado
  * que se comporta como um computador real. O hypervisor gerencia e aloca recursos para a VM.
  */
-public class VirtualMachine {
+public class VirtualMachine implements Runnable {
     private String name;
     private OperatingSystem os;
     private NetworkCard networkCard;
     private Hypervisor hypervisor; // Referência ao hypervisor
+    private String message;
 
     /**
      * Cria uma nova Máquina Virtual com um nome específico, associada a um hypervisor.
@@ -21,6 +22,14 @@ public class VirtualMachine {
         this.hypervisor = hypervisor; // Armazena a referência
         this.os = new OperatingSystem(name + "_OS");
         this.networkCard = new NetworkCard(this);
+    }
+
+    /**
+     * Define a mensagem a ser processada pela VM.
+     * @param message A mensagem.
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     /**
@@ -63,5 +72,23 @@ public class VirtualMachine {
      */
     public void printUserRequest() {
         System.out.println("[VM Usuário - " + name + "] Requisitando acesso à rede...");
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Iniciando execução da " + name);
+        for (int i = 0; i < 3; i++) {
+            System.out.println("[" + name + "] Executando ciclo " + (i + 1));
+            try {
+                Thread.sleep(100); // Simula trabalho
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Thread da " + name + " interrompida.");
+            }
+        }
+        if (message != null && !message.isEmpty()) {
+            getNetworkCard().receiveData(message);
+        }
+        System.out.println("Finalizando execução da " + name);
     }
 }

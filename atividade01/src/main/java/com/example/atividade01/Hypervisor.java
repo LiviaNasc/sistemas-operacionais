@@ -27,6 +27,17 @@ public class Hypervisor {
     }
 
     /**
+     * Inicia a execução de todas as VMs gerenciadas por este hypervisor, cada uma em sua própria thread.
+     */
+    public void startAllVMs() {
+        System.out.println("Hypervisor iniciando todas as VMs...");
+        for (VirtualMachine vm : vms) {
+            Thread vmThread = new Thread(vm);
+            vmThread.start();
+        }
+    }
+
+    /**
      * Retorna a lista de máquinas virtuais gerenciadas por este hypervisor.
      * @return A lista de VMs.
      */
