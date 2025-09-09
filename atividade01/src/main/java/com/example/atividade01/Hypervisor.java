@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * Representa o Hypervisor, a camada de software que cria e gerencia as máquinas virtuais.
  * Na vida real, é o software que roda diretamente no hardware (Tipo 1) ou sobre um SO (Tipo 2),
- * como o VMware ESXi, Xen, KVM, Hyper-V, etc.
  */
 public class Hypervisor {
     private List<VirtualMachine> vms;
